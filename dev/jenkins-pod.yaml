@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkinsapp
+  namespace: dev
+  labels:
+    app: jenkinsapp
+spec:
+  containers:
+  - name: jenkins
+    image: jenkins/jenkins:latest  # Corrected image tag
+    ports:
+    - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkinsappsvc
+  namespace: dev
+spec:
+  #type: NodePort
+  type: LoadBalancer
+  selector:
+    app: jenkinsapp
+  ports:
+  - port: 80
+    targetPort: 8080
